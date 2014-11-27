@@ -9,6 +9,7 @@ import java.net.URI;
 import java.util.Map;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
+import org.apache.http.client.utils.URIBuilder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -21,17 +22,23 @@ import org.junit.Test;
  */
 public class ITTestWeb {
     
-    
+    public static final String WEBAPP_BASE_URL = "http://localhost:9000/radium-testweb";
     
     @Test
-    public void testRuntimeExec() throws Exception{
-       Response resp = Request.Get("http://localhost:9000/radium-testweb/runtimeExec").execute();
+    public void testRuntimeExecListsDirectory() throws Exception{
+       Response resp = Request.Get(WEBAPP_BASE_URL + "/runtimeExec").execute();
        String resultText = resp.returnContent().toString();
        assertTrue(resultText.contains("SUCCESS"));
     }
     
     @Test
-    public void testEchoServlet() throws Exception{
+    public void testThatEchoServletReturnsUnsanitizedContent() throws Exception{
+        String unsanitizedInput="<xml>Unsantized!</xml>";
+        URI uri = new URIBuilder(WEBAPP_BASE_URL + "/echo").addParameter("in", unsanitizedInput).build();
+        Response resp = Request.Get(uri).execute();
+        String resultText = resp.returnContent().toString().trim();
+        
+        assertEquals(resultText, "SUCCESS\n" + unsanitizedInput);
         
     }
     
