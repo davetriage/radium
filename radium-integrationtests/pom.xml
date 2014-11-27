@@ -39,45 +39,43 @@
                 </execution>
               </executions>
             </plugin>
-            <plugin>
-              <groupId>org.codehaus.cargo</groupId>
-              <artifactId>cargo-maven2-plugin</artifactId>
-              <version>1.2.0</version>
-              <configuration>
-                  <container>
-                      <containerId>tomcat7x</containerId>
-                      <zipUrlInstaller>
-                          <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.16/bin/apache-tomcat-7.0.16.zip
-                          </url>
-                          <downloadDir>${project.build.directory}/downloads</downloadDir>
-                          <extractDir>${project.build.directory}/extracts</extractDir>
-                      </zipUrlInstaller>
-                  </container>
-                  <configuration>
-                    <properties>
-                          <!--<cargo.logging>high</cargo.logging>-->
-                          <!--<cargo.jvmargs>-javaagent:target/ByteCodeMaster-1.0.jar</cargo.jvmargs>-->
-                      </properties>                      
-                  </configuration>
-  
-              </configuration>
-              <executions>
-                  <execution>
-                      <id>start-tomcat</id>
-                      <phase>pre-integration-test</phase>
-                      <goals>
-                          <goal>start</goal>
-                      </goals>
-                  </execution>
-                  <execution>
-                      <id>stop-tomcat</id>
-                      <phase>post-integration-test</phase>
-                      <goals>
-                          <goal>stop</goal>
-                      </goals>
-                  </execution>
-              </executions>
-            </plugin>
+              <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.4.10</version>
+                <configuration>
+                    <container>
+                        <containerId>tomcat7x</containerId>
+                        <zipUrlInstaller>
+                            <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.16/bin/apache-tomcat-7.0.16.zip</url>
+                            <downloadDir>${project.build.directory}/downloads</downloadDir>
+                            <extractDir>${project.build.directory}/extracts</extractDir>
+                        </zipUrlInstaller>
+                    </container>
+                    <configuration>
+                        <properties>
+                            <!--<cargo.logging>high</cargo.logging>-->
+                            <cargo.servlet.port>9000</cargo.servlet.port>
+                        </properties>
+                    </configuration>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start-tomcat</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-tomcat</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+              </plugin> 
         </plugins>
     </build>
 </project>
